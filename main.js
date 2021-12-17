@@ -7,13 +7,40 @@ const stringToHTML = (s) => {
 const renderItem = (item) => {
   const element = stringToHTML(`<li data-id="${item._id}">${item.name}</li>`);
   element.addEventListener("click", () => {
+    const mealsList = document.getElementById("meals-list");
+    Array.from(mealsList.children).forEach((x) =>
+      x.classList.remove("selected")
+    );
     element.classList.add("selected");
-    element.classList.remove("selected")
+    const mealsIdInput = document.getElementById("meals-id");
+    mealsIdInput.value = item._id;
   });
   return element;
 };
 
 window.onload = () => {
+  const orderForm = document.getElementById("order");
+  orderForm.onsubmit = (e) => {
+    e.preventDefault();
+    const mealId = document.getElementById("meals-id");
+    const mealIdValue = mealId.value;
+    if (!mealIdValue) {
+      alert("Debes seleccionar un plato");
+      return;
+    }
+    const order = {
+      meal_id: mealIdValue,
+      user_id: "Alejandro",
+    };
+    fetch("https://serverless-duquedk1.vercel.app/api/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "appication/json",
+      },
+      body: JSON.stringify(order),
+    }).then((x) => console.log(x));
+  };
+
   fetch("https://serverless-duquedk1.vercel.app/api/meals")
     .then((res) => res.json())
     .then((data) => {

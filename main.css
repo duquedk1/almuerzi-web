@@ -35,3 +35,10 @@ ul {
     background-color: #ccc
 }
 
+#meals-list li {
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #eee;
+}
