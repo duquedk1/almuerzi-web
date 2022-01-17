@@ -24,21 +24,25 @@ window.onload = () => {
     e.preventDefault();
     const mealId = document.getElementById("meals-id");
     const mealIdValue = mealId.value;
+    //
     if (!mealIdValue) {
       alert("Debes seleccionar un plato");
       return;
     }
     const order = {
       meal_id: mealIdValue,
-      user_id: "Alejandro",
+      user_id: "Daniel",
     };
+    console.log(order);
     fetch("https://serverless-duquedk1.vercel.app/api/orders", {
       method: "POST",
       headers: {
-        "Content-Type": "appication/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(order),
-    }).then((x) => console.log(x));
+    })
+      .then((x) => x.json())
+      .then((x) => console.log(x));
   };
 
   fetch("https://serverless-duquedk1.vercel.app/api/meals")
